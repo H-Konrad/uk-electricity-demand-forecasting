@@ -1,21 +1,24 @@
 import requests
+import requests_cache
+from retry_requests import retry
 
 elexon_url = "https://data.elexon.co.uk/bmrs/api/v1/datasets/INDO"
 
-def get_indo(publish_date_time_from, publish_date_time_to):
+def get_indo(
+        session,
+        publish_date_time_from, 
+        publish_date_time_to
+    ):
+    params = {
+        "publishDateTimeFrom": publish_date_time_from,
+        "publishDateTimeTo": publish_date_time_to,
+        "format": "json"
+    }
+    
     try:
-        params = {
-            "publishDateTimeFrom": publish_date_time_from,
-            "publishDateTimeTo": publish_date_time_to,
-            "format": "json"
-        }
-
-        response = requests.get(
+        response = session.get(
             url = elexon_url,
             params = params,
-            headers = {
-                "Cache-Control": "no-cache"
-            },
             timeout = 30
         )
 
@@ -31,10 +34,21 @@ def get_indo(publish_date_time_from, publish_date_time_to):
 
 
 if __name__ == "__main__":
+    cache_session = requests_cache.CachedSession(
+        cache_name = '.elexon_cache', 
+        expire_after = 3600
+    )
+    retry_session = retry(
+        cache_session, 
+        retries = 5, 
+        backoff_factor = 0.2
+    )
+
     start = "2026-08-23T18:00:00Z"
     end = "2026-08-23T19:00:00Z"
 
     data = get_indo(
+        session = retry_session,
         publish_date_time_from = start,
         publish_date_time_to = end
     )
