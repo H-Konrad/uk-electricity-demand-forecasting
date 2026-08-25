@@ -4,6 +4,16 @@ from retry_requests import retry
 
 url = "https://api.open-meteo.com/v1/forecast"
 
+cache_session = requests_cache.CachedSession(
+    cache_name = '.weather_cache', 
+    expire_after = 3600
+)
+retry_session = retry(
+    cache_session, 
+    retries = 5, 
+    backoff_factor = 0.2
+)
+
 def get_weather_data(
         latitude, 
         longitude,
@@ -20,9 +30,9 @@ def get_weather_data(
         ],
         models = "ukmo_seamless"
     ):
-    cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
-    retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
-    openmeteo = openmeteo_requests.Client(session = retry_session)
+    openmeteo = openmeteo_requests.Client(
+        session = retry_session
+    )
 
     params = {
         "latitude": latitude,
@@ -33,12 +43,17 @@ def get_weather_data(
         "end_date": end_date,
     }
 
-    response = openmeteo.weather_api(
-        url = url, 
-        params = params
-    )
+    try:
+        response = openmeteo.weather_api(
+            url = url, 
+            params = params
+        )
 
-    return response
+        return response
+
+    except Exception as e:
+        print(f"Request failed: {e}")
+        return None
 
 if __name__ == "__main__":
     latitude = 51.5085
