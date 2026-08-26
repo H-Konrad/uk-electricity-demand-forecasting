@@ -2,7 +2,9 @@ import openmeteo_requests
 import requests_cache
 from retry_requests import retry
 
-url = "https://api.open-meteo.com/v1/forecast"
+from src.parsers.open_meteo.uk_met_office import uk_met_office_parser
+
+url = "https://single-runs-api.open-meteo.com/v1/forecast"
 
 cache_session = requests_cache.CachedSession(
     cache_name = '.weather_cache', 
@@ -17,8 +19,7 @@ retry_session = retry(
 def get_weather_data(
         latitude, 
         longitude,
-        start_date,
-        end_date,
+        run,
         hourly = [
             "temperature_2m", 
             "relative_humidity_2m", 
@@ -28,7 +29,7 @@ def get_weather_data(
             "showers",
             "weather_code"
         ],
-        models = "ukmo_seamless"
+        models = "ukmo_uk_deterministic_2km"
     ):
     openmeteo = openmeteo_requests.Client(
         session = retry_session
@@ -39,8 +40,8 @@ def get_weather_data(
         "longitude": longitude,
         "hourly": hourly,
         "models": models,
-        "start_date": start_date,
-        "end_date": end_date,
+        "forecast_days": 1,
+        "run": run
     }
 
     try:
@@ -58,13 +59,17 @@ def get_weather_data(
 if __name__ == "__main__":
     latitude = 51.5085
     longitude = -0.1257
-    start_date = "2026-08-18"
-    end_date = "2026-08-19"
+    run = "2026-08-25T00:00"
 
     response = get_weather_data(
         latitude = latitude,
         longitude = longitude,
-        start_date = start_date,
-        end_date = end_date
+        run = run
     )
 
+    a = uk_met_office_parser(
+        run = run,
+        response = response[0]
+    )
+
+    print(a)
