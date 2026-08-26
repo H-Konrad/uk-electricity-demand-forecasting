@@ -1,6 +1,9 @@
 import pandas as pd
 
-def uk_met_office_parser(response):
+def uk_met_office_parser(
+        run,
+        response
+    ):
     hourly = response.Hourly()
 
     hourly_data = {
@@ -23,8 +26,8 @@ def uk_met_office_parser(response):
     }
 
     return {
-        "time": hourly_data["date"],
-        "interval": hourly.Interval(),
+        "model_run_time": run,
+        "forecast_valid_at": hourly_data["date"],
         "temperature_2m": hourly.Variables(0).ValuesAsNumpy(),
         "relative_humidity_2m": hourly.Variables(1).ValuesAsNumpy(),
         "apparent_temperature": hourly.Variables(2).ValuesAsNumpy(),
