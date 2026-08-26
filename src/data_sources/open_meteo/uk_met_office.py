@@ -4,7 +4,7 @@ from retry_requests import retry
 
 from src.parsers.open_meteo.uk_met_office import uk_met_office_parser
 
-url = "https://single-runs-api.open-meteo.com/v1/forecast"
+url = "https://historical-forecast-api.open-meteo.com/v1/forecast"
 
 cache_session = requests_cache.CachedSession(
     cache_name = '.weather_cache', 
@@ -19,7 +19,8 @@ retry_session = retry(
 def get_weather_data(
         latitude, 
         longitude,
-        run,
+        start_date,
+        end_date,
         hourly = [
             "temperature_2m", 
             "relative_humidity_2m", 
@@ -40,8 +41,8 @@ def get_weather_data(
         "longitude": longitude,
         "hourly": hourly,
         "models": models,
-        "forecast_days": 1,
-        "run": run
+        "start_date": start_date,
+        "end_date": end_date
     }
 
     try:
@@ -57,19 +58,27 @@ def get_weather_data(
         return None
 
 if __name__ == "__main__":
-    latitude = 51.5085
-    longitude = -0.1257
-    run = "2026-08-25T00:00"
+    latitude = [51.5085, 55.9532]
+    longitude = [-0.1257, -3.1883]
+    start_date = "2026-08-10"
+    end_date = "2026-08-10"
 
     response = get_weather_data(
         latitude = latitude,
         longitude = longitude,
-        run = run
+        start_date = start_date,
+        end_date = end_date
     )
 
     a = uk_met_office_parser(
-        run = run,
         response = response[0]
     )
 
     print(a)
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!")
+
+    b = uk_met_office_parser(
+        response = response[1]
+    )
+
+    print(b)
