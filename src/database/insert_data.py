@@ -97,9 +97,7 @@ class InsertToDatabase:
                 relative_humidity_2m,
                 apparent_temperature,
                 snowfall,
-                rain,
-                showers,
-                weather_code
+                rain
             )
             VALUES (
                 %(location_id)s,
@@ -108,9 +106,7 @@ class InsertToDatabase:
                 %(relative_humidity_2m)s,
                 %(apparent_temperature)s,
                 %(snowfall)s,
-                %(rain)s,
-                %(showers)s,
-                %(weather_code)s
+                %(rain)s
             )
             ON CONFLICT DO NOTHING;
         """
