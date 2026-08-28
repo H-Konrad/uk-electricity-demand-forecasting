@@ -6,8 +6,8 @@ elexon_url = "https://data.elexon.co.uk/bmrs/api/v1/datasets/FUELHH"
 
 def get_fuelhh(
         session,
-        settlement_date_from,
-        settlement_date_to,
+        settlement_date_from = None,
+        settlement_date_to = None,
         publish_date_time_from = None, 
         publish_date_time_to = None,
         settlement_period = None,
@@ -51,15 +51,13 @@ if __name__ == "__main__":
         backoff_factor = 0.2
     )
 
-    start = "2026-08-23"
-    end = "2026-08-23"
-    settlement_period = 1
+    start = "2026-07-01T00:30:00Z"
+    end = "2026-07-02T00:00:00Z"
 
     data = get_fuelhh(
         session = retry_session,
-        settlement_date_from = start,
-        settlement_date_to = end,
-        settlement_period = settlement_period
+        publish_date_time_from = start,
+        publish_date_time_to = end
     )
 
     print(data)
