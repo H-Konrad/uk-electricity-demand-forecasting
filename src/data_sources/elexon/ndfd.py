@@ -1,10 +1,10 @@
 import requests
-import requests_cache
-from retry_requests import retry
+
+from src.utils.sessions import elexon_session
 
 elexon_url = "https://data.elexon.co.uk/bmrs/api/v1/datasets/NDFD"
 
-def get_ndf(
+def get_ndfd(
         session,
         publish_date_time_from, 
         publish_date_time_to
@@ -16,7 +16,7 @@ def get_ndf(
     }
 
     try:
-        response = requests.get(
+        response = session.get(
             url = elexon_url,
             params = params,
             timeout = 30
@@ -33,20 +33,12 @@ def get_ndf(
         return None
 
 if __name__ == "__main__":
-    cache_session = requests_cache.CachedSession(
-        cache_name = '.elexon_cache', 
-        expire_after = 3600
-    )
-    retry_session = retry(
-        cache_session, 
-        retries = 5, 
-        backoff_factor = 0.2
-    )
+    retry_session = elexon_session()
 
     start = "2026-08-23T18:00:00Z"
     end = "2026-08-24T18:00:00Z"
 
-    data = get_ndf(
+    data = get_ndfd(
         session = retry_session,
         publish_date_time_from = start,
         publish_date_time_to = end

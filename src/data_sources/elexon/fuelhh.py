@@ -1,6 +1,6 @@
 import requests
-import requests_cache
-from retry_requests import retry
+
+from src.utils.sessions import elexon_session
 
 elexon_url = "https://data.elexon.co.uk/bmrs/api/v1/datasets/FUELHH"
 
@@ -41,15 +41,7 @@ def get_fuelhh(
         return None
 
 if __name__ == "__main__":
-    cache_session = requests_cache.CachedSession(
-        cache_name = '.elexon_cache', 
-        expire_after = 3600
-    )
-    retry_session = retry(
-        cache_session, 
-        retries = 5, 
-        backoff_factor = 0.2
-    )
+    retry_session = elexon_session()
 
     start = "2026-07-01T00:30:00Z"
     end = "2026-07-02T00:00:00Z"
