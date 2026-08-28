@@ -9,7 +9,7 @@ def load_ndf(start_date, end_date, db):
     start_date = datetime.fromisoformat(start_date.replace("Z", "+00:00"))
     end_date = datetime.fromisoformat(end_date.replace("Z", "+00:00"))
     while start_date < end_date:
-        temp_end_date = start_date + timedelta(hours = 0.5)
+        temp_end_date = min(start_date + timedelta(hours = 0.5), end_date)
 
         response = get_ndf(
             session = retry_session,
