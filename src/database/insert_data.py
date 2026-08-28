@@ -43,10 +43,10 @@ class InsertToDatabase:
             ON CONFLICT DO NOTHING;
         """
 
-        with self.connection.cursor() as cursor:
+        with self.conn.cursor() as cursor:
             cursor.executemany(query, rows)
 
-        self.connection.commit()
+        self.conn.commit()
 
     def insert_ndf(self, rows):
         query = """
@@ -63,10 +63,10 @@ class InsertToDatabase:
             ON CONFLICT DO NOTHING;
         """
 
-        with self.connection.cursor() as cursor:
+        with self.conn.cursor() as cursor:
             cursor.executemany(query, rows)
 
-        self.connection.commit()
+        self.conn.commit()
 
     def insert_ndfd(self, rows):
         query = """
@@ -83,10 +83,10 @@ class InsertToDatabase:
             ON CONFLICT DO NOTHING;
         """
 
-        with self.connection.cursor() as cursor:
+        with self.conn.cursor() as cursor:
             cursor.executemany(query, rows)
 
-        self.connection.commit()
+        self.conn.commit()
 
     def insert_weather(self, rows):
         query = """
@@ -115,10 +115,10 @@ class InsertToDatabase:
             ON CONFLICT DO NOTHING;
         """
 
-        with self.connection.cursor() as cursor:
+        with self.conn.cursor() as cursor:
             cursor.executemany(query, rows)
 
-        self.connection.commit()
+        self.conn.commit()
 
     def insert_locations(self, rows):
 
