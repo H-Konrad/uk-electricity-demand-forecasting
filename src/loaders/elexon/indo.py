@@ -4,7 +4,6 @@ from src.utils.sessions import elexon_session
 from src.data_sources.elexon.indo import get_indo
 from src.parsers.elexon.indo import indo_parser
 from src.database.insert_data import InsertToDatabase
-from src.utils.sessions import elexon_session
 
 def load_indo(start_date, end_date, db, hour_window, session):
     start_date = datetime.fromisoformat(start_date.replace("Z", "+00:00"))

@@ -4,7 +4,6 @@ from src.utils.sessions import elexon_session
 from src.data_sources.elexon.ndf import get_ndf
 from src.parsers.elexon.ndf import ndf_parser
 from src.database.insert_data import InsertToDatabase
-from src.utils.sessions import elexon_session
 
 def load_ndf(start_date, end_date, db, session):
     start_date = datetime.fromisoformat(start_date.replace("Z", "+00:00"))

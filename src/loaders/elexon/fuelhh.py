@@ -4,7 +4,6 @@ from src.utils.sessions import elexon_session
 from src.data_sources.elexon.fuelhh import get_fuelhh
 from src.parsers.elexon.fuelhh import fuelhh_parser
 from src.database.insert_data import InsertToDatabase
-from src.utils.sessions import elexon_session
 
 def load_fuelhh(start_date, end_date, db, hour_window, session):
     start_date = datetime.fromisoformat(start_date.replace("Z", "+00:00"))

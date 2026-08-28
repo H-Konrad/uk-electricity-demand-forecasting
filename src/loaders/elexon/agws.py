@@ -4,7 +4,6 @@ from src.utils.sessions import elexon_session
 from src.data_sources.elexon.agws import get_agws
 from src.parsers.elexon.agws import agws_parser
 from src.database.insert_data import InsertToDatabase
-from src.utils.sessions import elexon_session
 
 def load_agws(start_date, end_date, db, hour_window, session):
     start_date = datetime.fromisoformat(start_date.replace("Z", "+00:00"))
