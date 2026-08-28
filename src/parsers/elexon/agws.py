@@ -4,5 +4,5 @@ def agws_parser(record):
         "publish_time": record["publishTime"],
         "start_time": record["startTime"],
         "fuel_type": record["psrType"],
-        "generation": record["quantity"]
+        "generation_mw": record["quantity"]
     }
