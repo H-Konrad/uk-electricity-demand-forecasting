@@ -9,12 +9,12 @@ class InsertToDatabase:
             INSERT INTO demand (
                 publish_time,
                 start_time,
-                demand_mw
+                true_demand_mw
             )
             VALUES (
                 %(publish_time)s,
                 %(start_time)s,
-                %(demand_mw)s
+                %(true_demand_mw)s
             )
             ON CONFLICT DO NOTHING;
         """
