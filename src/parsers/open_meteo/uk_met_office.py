@@ -28,11 +28,9 @@ def uk_met_office_parser(
     return pd.DataFrame({
         "location_id": location_id,
         "forecast_time": hourly_data["date"],
-        "temperature_2m": hourly.Variables(0).ValuesAsNumpy(),
-        "relative_humidity_2m": hourly.Variables(1).ValuesAsNumpy(),
-        "apparent_temperature": hourly.Variables(2).ValuesAsNumpy(),
-        "snowfall": hourly.Variables(3).ValuesAsNumpy(),
-        "rain": hourly.Variables(4).ValuesAsNumpy(),
-        "showers": hourly.Variables(5).ValuesAsNumpy(),
-        "weather_code": hourly.Variables(6).ValuesAsNumpy(),
+        "temperature_2m": hourly.Variables(0).ValuesAsNumpy().round(2),
+        "relative_humidity_2m": hourly.Variables(1).ValuesAsNumpy().round(2),
+        "apparent_temperature": hourly.Variables(2).ValuesAsNumpy().round(2),
+        "snowfall": hourly.Variables(3).ValuesAsNumpy().round(2),
+        "rain": hourly.Variables(4).ValuesAsNumpy().round(2)
     })
