@@ -8,21 +8,21 @@ def test_ndfd_parser():
         {
             "publish_time": "2026-08-24T13:45:00Z",
             "forecast_date": "2026-08-26",
-            "forecast_demand": 28990,
+            "forecast_demand_mw": 28990,
         },
         {
             "publish_time": "2026-08-24T13:45:00Z",
             "forecast_date": "2026-08-27",
-            "forecast_demand": 29040,
+            "forecast_demand_mw": 29040,
         },
         {
             "publish_time": "2026-08-24T13:45:00Z",
             "forecast_date": "2026-08-28",
-            "forecast_demand": 26240,
+            "forecast_demand_mw": 26240,
         },
         {
             "publish_time": "2026-08-24T13:45:00Z",
             "forecast_date": "2026-08-29",
-            "forecast_demand": 23620,
+            "forecast_demand_mw": 23620,
         },
     ]

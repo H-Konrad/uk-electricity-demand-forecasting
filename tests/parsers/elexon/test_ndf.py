@@ -8,16 +8,16 @@ def test_ndf_parser():
         {
             "publish_time": "2026-08-23T18:17:00Z",
             "forecast_time": "2026-08-23T18:30:00Z",
-            "forecast_demand": 25900,
+            "forecast_demand_mw": 25900,
         },
         {
             "publish_time": "2026-08-23T18:17:00Z",
             "forecast_time": "2026-08-23T19:00:00Z",
-            "forecast_demand": 25862,
+            "forecast_demand_mw": 25862,
         },
         {
             "publish_time": "2026-08-23T18:17:00Z",
             "forecast_time": "2026-08-23T19:30:00Z",
-            "forecast_demand": 25452,
+            "forecast_demand_mw": 25452,
         },
     ]

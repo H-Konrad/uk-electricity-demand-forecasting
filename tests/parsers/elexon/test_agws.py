@@ -6,18 +6,21 @@ def test_agws_parser():
 
     assert result == [
         {
+            "source": "AGWS",
             "publish_time": "2026-08-23T18:30:04Z",
             "start_time": "2026-08-23T16:00:00Z",
             "fuel_type": "Wind Onshore",
             "generation": 508.0,
         },
         {
+            "source": "AGWS",
             "publish_time": "2026-08-23T18:30:04Z",
             "start_time": "2026-08-23T16:00:00Z",
             "fuel_type": "Wind Offshore",
             "generation": 798.0,
         },
         {
+            "source": "AGWS",
             "publish_time": "2026-08-23T18:30:04Z",
             "start_time": "2026-08-23T16:00:00Z",
             "fuel_type": "Solar",

@@ -8,16 +8,16 @@ def test_indo_parser():
         {
             "publish_time": "2026-08-23T19:00:00Z",
             "start_time": "2026-08-23T18:30:00Z",
-            "true_demand": 26128,
+            "true_demand_mw": 26128,
         },
         {
             "publish_time": "2026-08-23T18:30:00Z",
             "start_time": "2026-08-23T18:00:00Z",
-            "true_demand": 25852,
+            "true_demand_mw": 25852,
         },
         {
             "publish_time": "2026-08-23T18:00:00Z",
             "start_time": "2026-08-23T17:30:00Z",
-            "true_demand": 25365,
+            "true_demand_mw": 25365,
         },
     ]
