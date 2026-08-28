@@ -1,5 +1,5 @@
 from src.database.insert_data import InsertToDatabase
-from src.data_sources.locations import locations
+from data_sources.open_meteo.locations import locations
 
 def main():
     db = InsertToDatabase()
