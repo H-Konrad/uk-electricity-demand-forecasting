@@ -27,7 +27,7 @@ def load_weather_data(start_date, end_date, latitude, longitude, db, day_window,
                 location_id = i + 1,
                 response = response[i]
             )
-
+            
             rows.append(location_df)
 
         rows = pd.concat(rows, ignore_index = True)
