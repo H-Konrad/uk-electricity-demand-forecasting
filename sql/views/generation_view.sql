@@ -6,4 +6,4 @@ SELECT
     generation_mw
 FROM generation
 WHERE fuel_type != 'INTGRNL'
-	OR source != 'AGWS'
+	AND source != 'AGWS'
