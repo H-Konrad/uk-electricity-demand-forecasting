@@ -5,5 +5,5 @@ SELECT
     fuel_type,
     generation_mw
 FROM generation
-WHERE fuel_type != 'INTGRNL'
+WHERE fuel_type NOT IN ('INTGRNL', 'INTVKL')
 	AND source != 'AGWS'
