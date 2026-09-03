@@ -1,5 +1,7 @@
 import pandas as pd
 
+from src.utils.make_features import months_to_seasons
+
 def create_horizon_dataset(demand):
     horizon_dfs = []
 
@@ -82,4 +84,19 @@ def merge_with_modelling(modelling, generation_pivot, weather_pivot):
     modelling = modelling.sort_values(["reference_time", "horizon"]).reset_index(drop = True)
 
     return modelling
-    
+
+def add_time_features(modelling):
+    modelling["month"] = modelling["target_time"].dt.month
+    modelling["season"] = modelling["target_time"].dt.month.apply(months_to_seasons)
+
+    modelling["hour"] = modelling["target_time"].dt.hour
+    modelling["minute"] = modelling["target_time"].dt.minute
+    modelling["time_of_day"] = modelling["hour"] + modelling["minute"] / 60
+    modelling = modelling.drop(columns = [
+        "hour",
+        "minute"
+    ])
+
+    modelling["is_weekend"] = (modelling["target_time"].dt.dayofweek >= 5)
+
+    return modelling
