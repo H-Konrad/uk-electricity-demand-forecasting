@@ -34,3 +34,30 @@ def create_horizon_dataset(demand):
     })
 
     return modelling
+
+def add_dynamic_demand_lags(modelling, demand):
+    demand_basic = demand[["prediction_time", "true_demand_mw"]].copy()
+
+    lag_times = {
+        "24h": pd.Timedelta(hours = 24),
+        "48h": pd.Timedelta(hours = 48),
+        "7d": pd.Timedelta(days = 7)
+    }
+
+    for label, time in lag_times.items():
+        lookup = demand_basic.rename(columns = {
+            "prediction_time": "lag_time",
+            "true_demand_mw": f"demand_lag_{label}"
+        })
+
+        modelling["lag_time"] = modelling["target_time"] - time
+
+        modelling = modelling.merge(
+            right = lookup,
+            on = "lag_time",
+            how = "left"
+        ).drop(columns = "lag_time")
+
+    modelling = modelling.sort_values(["reference_time", "horizon"]).dropna().reset_index(drop = True)
+
+    return modelling
