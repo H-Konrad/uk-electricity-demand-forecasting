@@ -1,5 +1,6 @@
 .elexon_cache.sqlite
 .weather_cache.sqlite
+data/*.parquet
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
