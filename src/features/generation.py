@@ -1,5 +1,28 @@
 import pandas as pd
 
+fuels = [
+    "BIOMASS",
+    "WIND",
+    "PS",
+    "OTHER",
+    "OCGT",
+    "NPSHYD",
+    "NUCLEAR",
+    "COAL",
+    "CCGT"
+]
+
+interconnectors = [
+    "INTNSL",
+    "INTNEM",
+    "INTIRL",
+    "INTIFA2",
+    "INTFR",
+    "INTEW",
+    "INTELEC",
+    "INTNED"
+]
+
 def fill_generation_gaps(generation):
     complete_data = []
 
@@ -34,3 +57,13 @@ def fill_generation_gaps(generation):
     ).sort_values("start_time")
 
     return generation
+
+def pivot_generation(generation):
+    generation_pivot = generation.pivot_table(
+        index = "publish_time",
+        columns = "fuel_type",
+        values = "generation_mw",
+        aggfunc = "last"
+    ).reset_index().sort_values("publish_time").drop(columns = "OIL")
+
+    return generation_pivot
