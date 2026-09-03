@@ -24,3 +24,18 @@ def fill_demand_gaps(demand):
     })
 
     return demand
+
+def half_day_lags(demand):
+    demand = demand.copy()
+
+    demand["demand_lag_30m"] = demand["true_demand_mw"].shift(1)
+    demand["demand_lag_1h"] = demand["true_demand_mw"].shift(2)
+    demand["demand_lag_2h"] = demand["true_demand_mw"].shift(4)
+    demand["demand_lag_6h"] = demand["true_demand_mw"].shift(12)
+    demand["demand_lag_12h"] = demand["true_demand_mw"].shift(24)
+
+    demand["demand_rolling_3h"] = demand["true_demand_mw"].shift(1).rolling(6).mean().round(0)
+    demand["demand_rolling_6h"] = demand["true_demand_mw"].shift(1).rolling(12).mean().round(0)
+    demand["demand_rolling_12h"] = demand["true_demand_mw"].shift(1).rolling(24).mean().round(0)
+
+    return demand
