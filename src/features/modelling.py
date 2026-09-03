@@ -61,3 +61,25 @@ def add_dynamic_demand_lags(modelling, demand):
     modelling = modelling.sort_values(["reference_time", "horizon"]).dropna().reset_index(drop = True)
 
     return modelling
+
+def merge_with_modelling(modelling, generation_pivot, weather_pivot):
+    modelling = pd.merge_asof(
+        left = modelling,
+        right = generation_pivot,
+        on = "reference_time",
+        direction = "backward"
+    )
+
+    modelling = modelling.sort_values("target_time").copy()
+
+    modelling = pd.merge_asof(
+        left = modelling,
+        right = weather_pivot,
+        on = "target_time",
+        direction = "backward"
+    )
+
+    modelling = modelling.sort_values(["reference_time", "horizon"]).reset_index(drop = True)
+
+    return modelling
+    
