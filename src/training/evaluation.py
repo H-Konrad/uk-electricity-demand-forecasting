@@ -17,16 +17,16 @@ def evaluate_baseline(df, prediction_column):
         "rmse": rmse
     }
 
-def evaluate_models(model, X, y):
-    predictions = model.predict(X)
+def evaluate_models(model, X_test, y_test):
+    predictions = model.predict(X_test)
 
     mae = mean_absolute_error(
-        y_true = y,
+        y_true = y_test,
         y_pred = predictions
     )
 
     rmse = root_mean_squared_error(
-        y_true = y,
+        y_true = y_test,
         y_pred = predictions
     )
 
