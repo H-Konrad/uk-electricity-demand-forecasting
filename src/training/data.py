@@ -35,7 +35,7 @@ def create_preprocessor(X_split):
     boolean_columns = ["is_weekend"]
     numeric_columns = [
         column for column in X_split.columns
-        if column not in (categorical_columns + numeric_columns)
+        if column not in (categorical_columns + boolean_columns)
     ]
 
     preprocessor = ColumnTransformer(
