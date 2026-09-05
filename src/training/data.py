@@ -3,7 +3,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 
 def split_dataset(dataset, train_size, validation_size):
     dataset = dataset.sort_values(["reference_time", "horizon"])
-    reference_times = dataset["reference_time"].drop_duplicates().sort_values()
+    reference_times = dataset["reference_time"].drop_duplicates().sort_values().reset_index(drop = True)
     reference_total = len(reference_times)
 
     train_end = int(reference_total * train_size)
@@ -17,7 +17,11 @@ def split_dataset(dataset, train_size, validation_size):
     validation_split = dataset[dataset["reference_time"].isin(validation_times)].copy()
     test_split = dataset[dataset["reference_time"].isin(test_times)].copy()
 
-    return train_split, validation_split, test_split
+    return (
+        train_split.reset_index(drop = True), 
+        validation_split.reset_index(drop = True), 
+        test_split.reset_index(drop = True)
+    )
 
 def split_features(splits):
     X_split = splits.drop(columns = [
@@ -61,3 +65,5 @@ def create_preprocessor(X_split):
     )
 
     return preprocessor
+
+def create_cv()
