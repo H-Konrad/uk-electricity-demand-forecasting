@@ -1,4 +1,4 @@
-from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import RandomizedSearchCV
 
 class ModelTrainer:
     def __init__(self, model):
@@ -15,13 +15,16 @@ class ModelTrainer:
 
         self.best_model = self.model
 
-    def optimise(self, X_train, y_train, params, scoring, cv):
-        self.search = GridSearchCV(
+    def optimise(self, X_train, y_train, params, scoring, cv, n_iter):
+        self.search = RandomizedSearchCV(
             estimator = self.model,
-            param_grid = params,
+            param_distributions = params,
+            n_iter = n_iter,
             scoring = scoring,
             cv = cv,
-            n_jobs = -1
+            n_jobs = -1,
+            random_state = 42,
+            verbose = 2
         )
 
         self.search.fit(
