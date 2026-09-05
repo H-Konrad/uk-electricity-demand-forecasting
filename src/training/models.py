@@ -25,7 +25,7 @@ def load_ridge(preprocessor):
 def load_random_forest(preprocessor):
     model = RandomForestRegressor(
         n_estimators = 200,
-        max_depth = 10,
+        max_depth = 5,
         random_state = 42,
         n_jobs = -1
     )
