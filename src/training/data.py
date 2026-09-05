@@ -48,7 +48,7 @@ def create_preprocessor(X_split):
             (
                 "categorical",
                 OneHotEncoder(
-                    handle_unknown = "ingore"
+                    handle_unknown = "ignore"
                 ),
                 categorical_columns
             ),
