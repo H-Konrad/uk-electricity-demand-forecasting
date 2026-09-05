@@ -12,27 +12,38 @@ data_path = "data/dataset/modelling_dataset.parquet"
 def main():
     conn = get_connection()
 
-    demand = get_demand_df(conn)
-    generation = get_generation_df(conn)
-    weather = get_weather_df(conn)
+    demand = get_demand_df(conn = conn)
+    generation = get_generation_df(conn = conn)
+    weather = get_weather_df(conn = conn)
 
-    demand = fill_demand_gaps(demand)
-    demand = half_day_lags(demand)
+    demand = fill_demand_gaps(demand = demand)
+    demand = half_day_lags(demand = demand)
 
-    modelling = create_horizon_dataset(demand)
-    modelling = add_dynamic_demand_lags(modelling, demand)
+    modelling = create_horizon_dataset(demand = demand)
+    modelling = add_dynamic_demand_lags(
+        modelling = modelling, 
+        demand = demand
+    )
 
-    generation = fill_generation_gaps(generation)
-    generation_pivot = pivot_generation(generation)
-    generation_pivot = add_generation_features(generation_pivot)
+    generation = fill_generation_gaps(generation = generation)
+    generation_pivot = pivot_generation(generation = generation)
+    generation_pivot = add_generation_features(generation_pivot = generation_pivot)
 
-    weather_pivot = pivot_weather(weather)
-    weather_pivot = add_weather_features(weather_pivot)
+    weather_pivot = pivot_weather(weather = weather)
+    weather_pivot = add_weather_features(weather_pivot = weather_pivot)
 
-    modelling = merge_with_modelling(modelling, generation_pivot, weather_pivot)
-    modelling = add_time_features(modelling)
+    modelling = merge_with_modelling(
+        modelling = modelling, 
+        generation_pivot = generation_pivot, 
+        weather_pivot = weather_pivot
+    )
+    modelling = add_time_features(modelling = modelling)
 
-    modelling.to_parquet(data_path, index = False, engine = "pyarrow")
+    modelling.to_parquet(
+        path = data_path, 
+        index = False, 
+        engine = "pyarrow"
+    )
 
     print(modelling.shape)
 
