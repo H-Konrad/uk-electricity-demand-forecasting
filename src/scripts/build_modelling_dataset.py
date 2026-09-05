@@ -7,6 +7,8 @@ from src.features.modelling import (
 from src.database.database_to_pandas import get_demand_df, get_generation_df, get_weather_df
 from src.database.connection import get_connection
 
+data_path = "data/dataset/modelling_dataset.parquet"
+
 def main():
     conn = get_connection()
 
@@ -30,7 +32,7 @@ def main():
     modelling = merge_with_modelling(modelling, generation_pivot, weather_pivot)
     modelling = add_time_features(modelling)
 
-    modelling.to_parquet("data/modelling_dataset.parquet", index = False, engine = "pyarrow")
+    modelling.to_parquet(data_path, index = False, engine = "pyarrow")
 
     print(modelling.shape)
 
