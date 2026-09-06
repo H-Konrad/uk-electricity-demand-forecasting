@@ -13,6 +13,7 @@ def evaluate_baseline(df, prediction_column):
 
     return {
         "model": prediction_column,
+        "version": "baseline",
         "mae": mae,
         "rmse": rmse
     }
