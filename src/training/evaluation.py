@@ -18,8 +18,9 @@ def evaluate_baseline(df, prediction_column):
         "rmse": rmse
     }
 
-def evaluate_models(model, X_test, y_test):
-    predictions = model.predict(X_test)
+def evaluate_models(y_test, X_test = None, model = None, predictions = None):
+    if predictions is None:
+        predictions = model.predict(X_test)
 
     mae = mean_absolute_error(
         y_true = y_test,
