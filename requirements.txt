@@ -12,3 +12,4 @@ statsmodels==0.15.0
 pyarrow==25.0.1
 scikit-learn==1.9.0
 xgboost==3.4.1
+shap==0.52.0
