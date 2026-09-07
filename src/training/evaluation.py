@@ -1,4 +1,4 @@
-from sklearn.metrics import mean_absolute_error, root_mean_squared_error
+from sklearn.metrics import mean_absolute_error, root_mean_squared_error, mean_absolute_percentage_error
 
 def evaluate_baseline(df, prediction_column):
     mae = mean_absolute_error(
@@ -18,7 +18,7 @@ def evaluate_baseline(df, prediction_column):
         "rmse": rmse
     }
 
-def evaluate_models(y_test, X_test = None, model = None, predictions = None):
+def evaluate_models(y_test, X_test = None, model = None, predictions = None, mape = False):
     if predictions is None:
         predictions = model.predict(X_test)
 
@@ -31,6 +31,18 @@ def evaluate_models(y_test, X_test = None, model = None, predictions = None):
         y_true = y_test,
         y_pred = predictions
     )
+
+    if mape:
+        value = mean_absolute_percentage_error(
+            y_true = y_test,
+            y_pred = predictions
+        ) * 100
+
+        return {
+            "mae": mae,
+            "rmse": rmse,
+            "mape": value
+        }
 
     return {
         "mae": mae,
