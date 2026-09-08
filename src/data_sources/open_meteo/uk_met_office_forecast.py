@@ -5,7 +5,7 @@ from src.utils.sessions import weather_data_session
 
 url = "https://api.open-meteo.com/v1/forecast"
 
-def get_weather_data(
+def get_weather_forecast_data(
         session,
         latitude, 
         longitude,
@@ -52,7 +52,7 @@ if __name__ == "__main__":
     start_date = "2026-09-08",
     end_date = "2026-09-09"
 
-    response = get_weather_data(
+    response = get_weather_forecast_data(
         session = retry_session,
         latitude = latitude,
         longitude = longitude,
