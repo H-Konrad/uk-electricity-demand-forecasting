@@ -1,8 +1,5 @@
 import openmeteo_requests
 
-from src.parsers.open_meteo.uk_met_office import uk_met_office_parser
-from src.utils.sessions import weather_data_session
-
 url = "https://historical-forecast-api.open-meteo.com/v1/forecast"
 
 def get_weather_data(
@@ -46,32 +43,3 @@ def get_weather_data(
     except Exception as e:
         print(f"Request failed: {e}")
         return None
-
-if __name__ == "__main__":
-    retry_session = weather_data_session()
-
-    latitude = [51.5085, 55.9532]
-    longitude = [-0.1257, -3.1883]
-    start_date = "2026-08-10"
-    end_date = "2026-08-11"
-
-    response = get_weather_data(
-        session = retry_session,
-        latitude = latitude,
-        longitude = longitude,
-        start_date = start_date,
-        end_date = end_date
-    )
-
-    loc_a = uk_met_office_parser(
-        response = response[0]
-    )
-
-    print(loc_a)
-    print("!!!!!!!!!!!!!!!!!!!!!!!!!!")
-
-    loc_b = uk_met_office_parser(
-        response = response[1]
-    )
-
-    print(loc_b)
