@@ -2,7 +2,7 @@
 .weather_cache.sqlite
 data/dataset/*.parquet
 data/results/*
-models/*
+models/*.joblib
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
