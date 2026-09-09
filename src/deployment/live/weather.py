@@ -14,8 +14,9 @@ def get_live_weather_data(latitude, longitude, session):
         "longitude"
     ])
 
-    start_date = date.today()
-    end_date = start_date + timedelta(days = 1)
+    current_date = date.today()
+    start_date = current_date - timedelta(days = 1)
+    end_date = current_date + timedelta(days = 1)
 
     response = get_weather_forecast_data(
         session = session,
@@ -40,6 +41,8 @@ def get_live_weather_data(latitude, longitude, session):
         location_names,
         on = "location_id"
     )
+
+    rows["forecast_time"] = rows["forecast_time"].astype("datetime64[us, UTC]")
 
     return rows.drop(columns = "location_id")
 
