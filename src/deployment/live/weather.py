@@ -3,14 +3,19 @@ from datetime import date, timedelta
 
 from src.utils.sessions import weather_data_session
 from src.data_sources.open_meteo.uk_met_office_forecast import get_weather_forecast_data
-from src.parsers.open_meteo.uk_met_office_forecast import uk_met_office_forecast_parser
+from src.parsers.open_meteo.uk_met_office import uk_met_office_parser
 from src.data_sources.open_meteo.locations import locations
 
-def get_live_weather_data(start_date, end_date, latitude, longitude, session):
+from src.features.weather import add_weather_features, pivot_weather
+
+def get_live_weather_data(latitude, longitude, session):
     location_names = pd.DataFrame(locations).drop(columns = [
         "latitude",
         "longitude"
     ])
+
+    start_date = date.today()
+    end_date = start_date + timedelta(days = 1)
 
     response = get_weather_forecast_data(
         session = session,
@@ -22,7 +27,7 @@ def get_live_weather_data(start_date, end_date, latitude, longitude, session):
 
     rows = []
     for i in range(len(latitude)):
-        location_df = uk_met_office_forecast_parser(
+        location_df = uk_met_office_parser(
             location_id = i + 1,
             response = response[i]
         )
@@ -41,16 +46,14 @@ def get_live_weather_data(start_date, end_date, latitude, longitude, session):
 
 if __name__ == "__main__":
     session = weather_data_session()
-
-    start_date = date.today()
-    end_date = start_date + timedelta(days = 1)
     
-    response = get_live_weather_data(
-        start_date = start_date,
-        end_date = end_date,
+    weather = get_live_weather_data(
         latitude = [57.4777, 55.9532],
         longitude = [-4.2247, -3.1883],
         session = session
     )
 
-    print(response)
+    weather_pivot = pivot_weather(weather = weather)
+    weather_pivot = add_weather_features(weather_pivot = weather_pivot)
+
+    print(weather_pivot)
