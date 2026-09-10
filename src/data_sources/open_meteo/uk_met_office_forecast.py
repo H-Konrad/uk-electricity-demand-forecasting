@@ -10,6 +10,7 @@ def get_weather_forecast_data(
         end_date,
         hourly = [
             "temperature_2m", 
+            "apparent_temperature",
             "relative_humidity_2m", 
             "snowfall",
             "rain",
