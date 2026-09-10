@@ -11,7 +11,6 @@ from src.features.modelling import (
     create_horizon_dataset, add_dynamic_demand_lags, merge_with_modelling, add_time_features
 )
 from src.data_sources.open_meteo.locations import locations
-from src.utils.sessions import elexon_session, weather_data_session
 
 latitude = [location["latitude"] for location in locations]
 longitude = [location["longitude"] for location in locations]
@@ -188,14 +187,3 @@ def create_live_dataset(session_elexon, session_open_meteo):
         )
 
     return modelling
-
-if __name__ == "__main__":
-    session_elexon = elexon_session()
-    session_open_meteo = weather_data_session()
-
-    modelling = create_live_dataset(
-        session_elexon = session_elexon,
-        session_open_meteo = session_open_meteo
-    )
-
-    print(modelling)

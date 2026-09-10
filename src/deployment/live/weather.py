@@ -1,12 +1,9 @@
 import pandas as pd
 from datetime import date, timedelta
 
-from src.utils.sessions import weather_data_session
 from src.data_sources.open_meteo.uk_met_office_forecast import get_weather_forecast_data
 from src.parsers.open_meteo.uk_met_office import uk_met_office_parser
 from src.data_sources.open_meteo.locations import locations
-
-from src.features.weather import add_weather_features, pivot_weather
 
 def get_live_weather_data(latitude, longitude, session):
     location_names = pd.DataFrame(locations).drop(columns = [
@@ -45,18 +42,3 @@ def get_live_weather_data(latitude, longitude, session):
     rows["forecast_time"] = rows["forecast_time"].astype("datetime64[us, UTC]")
 
     return rows.drop(columns = "location_id")
-
-
-if __name__ == "__main__":
-    session = weather_data_session()
-    
-    weather = get_live_weather_data(
-        latitude = [57.4777, 55.9532],
-        longitude = [-4.2247, -3.1883],
-        session = session
-    )
-
-    weather_pivot = pivot_weather(weather = weather)
-    weather_pivot = add_weather_features(weather_pivot = weather_pivot)
-
-    print(weather_pivot)

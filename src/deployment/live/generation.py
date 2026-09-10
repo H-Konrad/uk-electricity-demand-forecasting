@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta, timezone
 import pandas as pd
 
-from src.utils.sessions import elexon_session
 from src.data_sources.elexon.fuelhh import get_fuelhh
 from src.parsers.elexon.fuelhh import fuelhh_parser
 
@@ -21,12 +20,3 @@ def get_live_generation(session):
     rows = [fuelhh_parser(record) for record in response]
 
     return pd.DataFrame(rows).drop(columns = "source")
-
-if __name__ == "__main__":
-    retry_session = elexon_session()
-    
-    response = get_live_generation(
-        session = retry_session
-    )
-
-    print(response)

@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta, timezone
 import pandas as pd
 
-from src.utils.sessions import elexon_session
 from src.data_sources.elexon.indo import get_indo
 from src.parsers.elexon.indo import indo_parser
 
@@ -23,13 +22,3 @@ def get_live_demand(session):
     return pd.DataFrame(rows).drop(
         columns = "publish_time"
     ).sort_values("start_time").reset_index(drop = True)
-
-if __name__ == "__main__":
-    retry_session = elexon_session()
-    
-    response = get_live_demand(
-        session = retry_session
-    )
-
-    print(response)
-
