@@ -1,7 +1,5 @@
 import requests
 
-from src.utils.sessions import elexon_session
-
 elexon_url = "https://data.elexon.co.uk/bmrs/api/v1/datasets/FUELHH"
 
 def get_fuelhh(
@@ -39,17 +37,3 @@ def get_fuelhh(
     except requests.exceptions.RequestException as e:
         print(f"Request failed: {e}")
         return None
-
-if __name__ == "__main__":
-    retry_session = elexon_session()
-
-    start = "2026-07-01T00:30:00Z"
-    end = "2026-07-02T00:00:00Z"
-
-    data = get_fuelhh(
-        session = retry_session,
-        publish_date_time_from = start,
-        publish_date_time_to = end
-    )
-
-    print(data)

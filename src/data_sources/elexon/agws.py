@@ -1,7 +1,5 @@
 import requests
 
-from src.utils.sessions import elexon_session
-
 elexon_url = "https://data.elexon.co.uk/bmrs/api/v1/datasets/AGWS"
 
 def get_agws(
@@ -29,17 +27,3 @@ def get_agws(
     except requests.exceptions.RequestException as e:
         print(f"Request failed: {e}")
         return None
-
-if __name__ == "__main__":
-    retry_session = elexon_session()
-
-    start = "2026-07-18T02:30:00Z"
-    end = "2026-08-19T02:30:00Z"
-
-    data = get_agws(
-        session = retry_session,
-        publish_date_time_from = start,
-        publish_date_time_to = end
-    )
-
-    print(data)
