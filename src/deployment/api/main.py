@@ -96,6 +96,7 @@ def forecast_explanation(horizon: int):
     xgb_model = model.named_steps["model"]
     X_transformed = preprocessor.transform(X)
     feature_names = preprocessor.get_feature_names_out()
+    feature_names = [name.split("__")[1] for name in feature_names]
 
     explainer = shap.TreeExplainer(xgb_model)
     shap_values = explainer(X_transformed)
