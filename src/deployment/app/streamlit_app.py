@@ -5,9 +5,34 @@ import altair as alt
 
 api_url = "https://uk-electricity-demand-forecasting.onrender.com"
 
-forecast_response = requests.get(
-    f"{api_url}/forecast"
-)
+@st.cache_data(ttl = 900)
+def get_forecast():
+    response = requests.get(
+        f"{api_url}/forecast"
+    )
+
+    response.raise_for_status()
+    return response
+
+@st.cache_data()
+def get_model_info():
+    response = requests.get(
+        f"{api_url}/model-info"
+    )
+
+    response.raise_for_status()
+    return response.json()
+
+@st.cache_data(ttl = 900)
+def get_explanation(horizon):
+    response = requests.get(
+        f"{api_url}/forecast/explanation/{horizon}"
+    )
+
+    response.raise_for_status()
+    return response.json()
+
+forecast_response = get_forecast()
 
 if forecast_response.status_code == 200:
     forecast = pd.DataFrame(
@@ -32,9 +57,7 @@ else:
     )
     st.error(detail)
 
-model_info = requests.get(
-    f"{api_url}/model-info"
-).json()
+model_info = get_model_info()
 
 st.set_page_config(
     page_title = "UK Electricity Demand Forecast",
@@ -160,9 +183,7 @@ with col1:
         format_func = lambda horizon: str(horizon_to_time[horizon])
     )
 
-    horizon_explanation = requests.get(
-        f"{api_url}/forecast/explanation/{selected_horizon}"
-    ).json()
+    horizon_explanation = get_explanation(horizon = selected_horizon)
 
     st.metric(
         "Predicted Demand",
