@@ -3,7 +3,7 @@ import pandas as pd
 import streamlit as st
 import altair as alt
 
-api_url = "http://localhost:8000"
+api_url = "https://uk-electricity-demand-forecasting.onrender.com"
 
 forecast_response = requests.get(
     f"{api_url}/forecast"
