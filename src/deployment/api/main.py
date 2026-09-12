@@ -134,7 +134,9 @@ def forecast_explanation(horizon: int):
 
     return to_return
 
-
-
-if __name__ == "__main__":
-    print(generate_forecast())
+@app.get("/")
+def root():
+    return {
+        "status": "ok", 
+        "message": "API is running"
+    }
