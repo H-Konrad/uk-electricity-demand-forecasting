@@ -3,6 +3,7 @@
 data/dataset/*.parquet
 data/results/*
 models/*.joblib
+!models/optimised_xgboost.joblib
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
