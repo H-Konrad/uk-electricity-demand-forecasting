@@ -1,0 +1,12 @@
+.env
+.git/
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.ipynb
+.pytest_cache
+pytest_cache/
+
+data/
+notebooks/
