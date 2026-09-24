@@ -23,6 +23,11 @@ def get_live_weather_data(latitude, longitude, session):
         end_date = end_date
     )
 
+    if response is None:
+        raise ValueError(
+            "Open-Meteo request failed or returned no data."
+        )
+
     rows = []
     for i in range(len(latitude)):
         location_df = uk_met_office_parser(
