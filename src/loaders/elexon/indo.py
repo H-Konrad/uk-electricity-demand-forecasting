@@ -24,14 +24,3 @@ def load_indo(start_date, end_date, db, hour_window, session):
         print(f"Complete: {start_date} to {temp_end_date}")
 
         start_date = temp_end_date + timedelta(hours = 0.5)
-
-if __name__ == "__main__":
-    retry_session = elexon_session()
-    
-    #load_indo(
-    #    start_date = "2026-07-01T00:30:00Z",
-    #    end_date = "2026-08-01T00:00:00Z",
-    #    db = InsertToDatabase(),
-    #    hour_window = 14 * 24,
-    #    session = retry_session()
-    #)

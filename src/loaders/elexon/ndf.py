@@ -24,13 +24,3 @@ def load_ndf(start_date, end_date, db, session):
         print(f"Complete: {start_date} to {temp_end_date}")
 
         start_date = temp_end_date + timedelta(hours = 12)
-
-if __name__ == "__main__":
-    retry_session = elexon_session()
-    
-    #load_ndf(
-    #    start_date = "2026-07-01T00:30:00Z",
-    #    end_date = "2026-07-02T00:00:00Z",
-    #    db = InsertToDatabase(),
-    #    session = retry_session()
-    #)

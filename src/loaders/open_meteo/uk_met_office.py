@@ -36,16 +36,3 @@ def load_weather_data(start_date, end_date, latitude, longitude, db, day_window,
         print(f"Complete: {start_date} to {temp_end_date}")
 
         start_date = temp_end_date + timedelta(days = 1)
-
-if __name__ == "__main__":
-    session = weather_data_session()
-    
-    #load_weather_data(
-    #    start_date = "2026-08-10",
-    #    end_date = "2026-08-12",
-    #    latitude = [57.4777, 55.9532],
-    #    longitude = [-4.2247, -3.1883],
-    #    db = InsertToDatabase(),
-    #    day_window = 7,
-    #    session = session
-    #)
