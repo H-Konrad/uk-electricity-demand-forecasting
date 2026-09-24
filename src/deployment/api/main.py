@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from cachetools import TTLCache
 import joblib
 import shap
 import pandas as pd
@@ -6,6 +7,11 @@ import pandas as pd
 from src.deployment.live.features import create_live_dataset
 from src.utils.sessions import elexon_session, weather_data_session
 from src.training.data import split_features
+
+live_data_cache = TTLCache(
+    maxsize = 1,
+    ttl = 900
+)
 
 model_path = "models/optimised_xgboost.joblib"
 
@@ -26,11 +32,21 @@ model = joblib.load(
 session_elexon = elexon_session()
 session_open_meteo = weather_data_session()
 
-def generate_forecast():
+def get_live_modelling_data():
+    if "modelling" in live_data_cache:
+        return live_data_cache["modelling"]
+
     modelling = create_live_dataset(
         session_elexon = session_elexon,
         session_open_meteo = session_open_meteo
     )
+
+    live_data_cache["modelling"] = modelling
+
+    return modelling
+
+def generate_forecast():
+    modelling = get_live_modelling_data()
 
     X, _ = split_features(
         splits = modelling
@@ -74,10 +90,7 @@ def model_info():
 
 @app.get("/forecast/explanation/{horizon}")
 def forecast_explanation(horizon: int):
-    modelling = create_live_dataset(
-        session_elexon = session_elexon,
-        session_open_meteo = session_open_meteo
-    )
+    modelling = get_live_modelling_data()
 
     n_horizon = modelling[modelling["horizon"] == horizon].copy()
 
