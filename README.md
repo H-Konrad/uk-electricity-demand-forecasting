@@ -8,7 +8,7 @@ The forecasting pipeline combines historical electricity demand, historical elec
 
 ## Project Links
 
-**Deployment Notice: The application is hosted on Render, which uses shared IP addresses. Open-Meteo applies rate limits to its free API by IP address, so usage from other services sharing the same Render IP can cause the daily limit to be reached. When this occurs, the Streamlit application cannot retrieve the required weather data and will display an error until the API becomes available again. The application and API function normally when run locally, unless the external data providers are unavailable.**
+**Deployment Notice: *The application is hosted on Render, which uses shared IP addresses. Open-Meteo applies rate limits to its free API by IP address, so usage from other services sharing the same Render IP can cause the daily limit to be reached. When this occurs, the Streamlit application cannot retrieve the required weather data and will display an error until the API becomes available again. The application and API function normally when run locally, unless the external data providers are unavailable.***
 
 - Live Application: [Streamlit App](https://uk-electricity-demand-forecasting-eypjsess6mtpzorjkmwdxy.streamlit.app/)
 - Electricity Data: [Elexon Insights Solution API](https://developer.data.elexon.co.uk/api-details#api=prod-insol-insights-api&operation=get-generation-availability-summary-14d)
