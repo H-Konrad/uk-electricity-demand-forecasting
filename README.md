@@ -80,30 +80,40 @@ uk-electricity-demand-forecasting/
 The project has three dependency files for development, FastAPI, and Streamlit. 
 
 For the development setup:
-```python pip install -r requirements/project.txt```
+```pip install -r requirements/project.txt```
 
 ### Running the API
 
 For the API setup:
-```python pip install -r requirements/api.txt```
+```pip install -r requirements/api.txt```
 
 To start the API:
 ```uvicorn src.deployment.api.main:app --reload```
 
-The API is then ran locally at:
-`http://localhost:8000`
+The API is then run locally at:
+```http://localhost:8000```
 
 ### Running the Streamlit App
 
 For the Streamlit setup:
-```python pip install -r src/deployment/app/requirements.txt```
+```pip install -r src/deployment/app/requirements.txt```
 
 To start the Streamlit app:
-```python streamlit run src/deployment/app/streamlit_app.py```
+```streamlit run src/deployment/app/streamlit_app.py```
 
-The Streamlit app will connect to the FastAPI backend and display the live electricity demand forecast. To run it locally, change the ```python api_url```.
+The Streamlit app will connect to the FastAPI backend and display the live electricity demand forecast. To run the app locally, change the ```api_url``` to the local API address.
 
 ### Docker
+
+The FastAPI backend can also be run using Docker.
+
+Build the image from the project root:
+```docker build -t uk-electricity-demand-forecasting .```
+
+Then run the container:
+```docker run -p 8000:8000 uk-electricity-demand-forecasting```
+
+This starts the API inside a container using the configuration defined in the Dockerfile.
 
 ## Limitations and Future Improvements
 
