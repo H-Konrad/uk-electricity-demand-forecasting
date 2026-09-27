@@ -117,6 +117,11 @@ This starts the API inside a container using the configuration defined in the Do
 
 ## Limitations and Future Improvements
 
+Several areas could be looked into to improve forecasting performance further: 
+- Additional features and feature engineering: New demand, generation or weather features could be introduced, alongside further transformations or combinations of existing features such as regional weather weighting or population weighed weather features. 
+- Target transformation: The target could be transformed, for example using log demand, which may reduce the effect of changing variance for different demand levels and improve performance across low or high demand. 
+- Model tuning: A wider hyperparameter search or additional forecasting models could be tested to explore whether further improvements in predictive performance are possible.
+
 ## Data Sources & Attribution
 
 This project uses electricity market and weather data from the following sources:
