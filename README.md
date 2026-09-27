@@ -14,21 +14,39 @@ The forecasting pipeline combines historical electricity demand, historical elec
 
 ## Application
 
-The app uses a Streamlit frontend with a FastAPI backend deployed on Render. The backend retrieves electricity and weather data, prepares the model input data, generates forecasts, and returns the results to the Streamlit interface.
+![Application screenshot](https://github.com/user-attachments/assets/f696c69c-5933-4a6b-84d4-ef697e6a7b48)
 
-### Live Forecast Dashboard
+The app uses a Streamlit frontend with a FastAPI backend deployed on Render. The backend retrieves electricity and weather data, prepares the model input data, generates forecasts, and returns the results to the Streamlit interface.
 
 ### Model Performance
 
+![Model performance](https://github.com/user-attachments/assets/292b457b-e1b6-433d-9c26-1e88f76bb8de)
+
+The application displays the deployed model alongside its test performance metrics, including MAE and RMSE. This provides context for the expected forecasting accuracy of the model. 
+
+Currently, these metrics are static. Ideally, the models would be periodically evaluated against new data, with the performance metrics automatically updated to reflect their latest performance.  
+
+### Live Forecast
+
+![Live forecast](https://github.com/user-attachments/assets/aec0cebc-8825-4f4b-91e3-a0aec6f34a40)
+
+The Streamlit dashboard displays the latest 24-hour electricity demand forecast across 48 horizons using a line chart. Below the line chart, a summary panel shows the minimum, average, and maximum demand for the forecast period. 
+
 ### Prediction Explanations
 
+![Prediction explanations](https://github.com/user-attachments/assets/51c8418f-d625-4f18-98f5-cf27919b21ec)
+
+Under the live forecast, a dropdown provides all 48 forecast horizons. These can be selected to see a SHAP-based explanation of the prediction. The application shows the predicted demand along with the model baseline and, on the right, a bar chart showing the top 10 features ranked by absolute influence, with their actual positive or negative SHAP values displayed.
+
 ### Live Data and Refresh Behaviour
+
+As the application uses live data that is not stored, both the API and Streamlit use caching to reduce repeated API calls and recomputation. Both caches refresh every 15 minutes. 
 
 ## Development
 
 ### Data Collection
 
-Historical electricty market data was collected from the Elexon Insights Solution API, including electricty demand, generation by fuel type (including interconnectors and generation fuels), and published demand forecasts. Weather forecast data was collected from Open-Meteo using the UK Met Office forecast model across eight locations (Manchester, Plymouth, Norwich, Edinburgh, Cardiff, London, Inverness, and Newcastle) in Great Britain.
+Historical electricity market data was collected from the Elexon Insights Solution API, including electricity demand, generation by fuel type (including interconnectors and generation fuels), and published demand forecasts. Weather forecast data was collected from Open-Meteo using the UK Met Office forecast model across eight locations (Manchester, Plymouth, Norwich, Edinburgh, Cardiff, London, Inverness, and Newcastle) in Great Britain.
 
 The data was stored in PostgreSQL, with separate tables used for demand, generation, forecasts, and weather. An additional locations table was used to provide location keys for the weather data. The database was then used to create the modelling dataset, while also making it easier to explore and analyse the data using SQL.
 
