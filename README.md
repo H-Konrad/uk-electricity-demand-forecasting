@@ -34,17 +34,74 @@ The data was stored in PostgreSQL, with separate tables used for demand, generat
 
 ### Feature Engineering
 
+Raw demand, generation, and weather data were turned into features that were more useful for forecasting. Temporal data was separated into features such as time of day, season, and weekend indicators. Historical demand and generation values were also transformed into lagged and rolling features so the models could capture recent trends and recurring patterns. 
+
+Each time was expanded into 48 forecast horizons, representing half hourly demand predictions across 24 hours. The horizon was included as a model feature, allowing a single model to learn across all forecast lead times rather than training a separate model for each horizon.
+
+The features were checked to see whether they were useful and whether any were too similar or unnecessary. For example, temperature forecasts across the UK were highly correlated, so these were combined into aggregate temperature features instead of keeping each location separate.
+
+The final feature set contains historical demand, generation, weather conditions, and calendar information. With approximately 52,000 half-hourly observations across three years, expanding each observation across 48 forecast horizons produced roughly 2.5 million rows in the final modelling dataset.
+
 ### Model Training
+
+The modelling dataset was split chronologically into 70% training, 15% validation and 15% test data. This preserved the time ordering of the observations and ensured that models were trained only on data occurring before the validation and test periods.
+
+Simple forecasting baselines were created first, using recent historical demand values such as demand from 30 minutes earlier and demand from the same period one week earlier. These provided a reference point for assessing whether the machine learning models offered a meaningful improvement.
+
+Three machine learning models were trained and compared: Ridge Regression, Random Forest and XGBoost. Ridge Regression was used as a regularised linear model, providing a ML benchmark while being less affected by correlated input features than linear regression. Random Forest and XGBoost were then used to capture more complex non-linear relationships between electricity demand and the engineered features. Hyperparameter tuning was done using randomised search. A small set of hyperparameters was explored to reduce training time for the tree-based models.
 
 ### Model Evaluation
 
+Models were evaluated using the test split, with performance being assessed using MAE and RMSE. Results were also compared against the simple forecasting baselines created during model training. Model performance was also analysed across different forecast horizons, seasons, times of day and electricity demand levels, including lower demand periods below 20,000 MW and higher demand periods above 35,000 MW.
+
+All three machine learning models were also compared against Elexon's published demand forecasts. Elexon's forecasts performed better overall, providing a useful benchmark for the project. The best-performing model was not too far behind Elexon's forecasts.
+
+XGBoost achieved the strongest overall performance and was selected as the final deployed model, with a test MAE of approximately 1,280 MW and RMSE of approximately 1,721 MW.
+
+Feature importance and SHAP analysis were then performed on the final XGBoost model. Historical demand features, particularly demand from 24 hours and seven days prior, were by far the most influential predictors. SHAP values showed that individual features could have substantial effects on specific predictions, in some cases changing the predicted demand by more than 1,000 MW.
+
 ## Repository Structure
+
+uk-electricity-demand-forecasting/
+├── data/             # Modelling datasets, API response samples, and results
+├── models/           # Trained models
+├── notebooks/        # EDA, modelling, and evaluation notebooks
+├── requirements/     # Project and API dependencies
+├── sql/              # SQL queries
+├── src/              # All project code for data collection, model training, API, Streamlit Etc.
+├── tests/            # Small test examples for data parsers
+├── Dockerfile        # Docker configuration for the API
+├── .dockerignore
+├── .gitignore
+└── README.md
 
 ## Requirements and Local Setup
 
+The project has three dependency files for development, FastAPI, and Streamlit. 
+
+For the development setup:
+```python pip install -r requirements/project.txt```
+
 ### Running the API
 
+For the API setup:
+```python pip install -r requirements/api.txt```
+
+To start the API:
+```uvicorn src.deployment.api.main:app --reload```
+
+The API is then ran locally at:
+`http://localhost:8000`
+
 ### Running the Streamlit App
+
+For the Streamlit setup:
+```python pip install -r src/deployment/app/requirements.txt```
+
+To start the Streamlit app:
+```python streamlit run src/deployment/app/streamlit_app.py```
+
+The Streamlit app will connect to the FastAPI backend and display the live electricity demand forecast. To run it locally, change the ```python api_url```.
 
 ### Docker
 
